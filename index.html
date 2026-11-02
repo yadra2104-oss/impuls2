@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Імпульс. Закон збереження імпульсу — онлайн-заняття з фізики | Анікушин Р. С.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@1,400;1,600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f7fb; --card:#ffffff; --ink:#152640; --ink-soft:#44566f;
+  --line:#d8e1ee; --line-soft:#e6edf6;
+  --blue:#1d5ed8; --blue-deep:#123a8f; --blue-tint:#e8f0fe;
+  --amber:#f09a0b; --amber-tint:#fff4dd;
+  --teal:#0d9488; --teal-tint:#e2f6f2;
+  --red:#dd4a3f; --red-tint:#fdeae8;
+  --shadow:0 14px 34px -18px rgba(21,38,64,.28);
+  --disp:'Unbounded',sans-serif; --body:'IBM Plex Sans',sans-serif;
+  --frm:'IBM Plex Serif',serif; --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); color:var(--ink); background:var(--paper);
+  background-image:
+    linear-gradient(rgba(29,94,216,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,94,216,.055) 1px, transparent 1px),
+    linear-gradient(rgba(29,94,216,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,94,216,.028) 1px, transparent 1px);
+  background-size:120px 120px,120px 120px,24px 24px,24px 24px;
+  line-height:1.6; overflow-x:hidden;
+}
+::selection{background:var(--blue); color:#fff}
+h1,h2,h3{line-height:1.15}
+button{font-family:inherit;cursor:pointer}
+
+.amb{position:fixed;z-index:0;pointer-events:none;font-family:var(--disp);font-weight:900;color:var(--blue);opacity:.045;user-select:none}
+.amb.a1{top:16%;left:-3%;font-size:clamp(90px,14vw,190px);transform:rotate(-8deg);animation:drift 14s ease-in-out infinite}
+.amb.a2{top:58%;right:-4%;font-size:clamp(80px,12vw,160px);transform:rotate(6deg);animation:drift 18s ease-in-out infinite reverse}
+@keyframes drift{0%,100%{translate:0 0}50%{translate:0 -26px}}
+
+.ticker{background:var(--blue-deep);color:#eaf1ff;overflow:hidden;position:relative;z-index:5;border-bottom:3px solid var(--amber)}
+.ticker-track{display:flex;width:max-content;animation:tick 34s linear infinite;padding:7px 0}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker span{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;white-space:nowrap;padding:0 26px}
+.ticker b{color:var(--amber);font-weight:600}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+header.hero{padding:44px 0 26px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:stretch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border:1.5px solid var(--blue);color:var(--blue-deep);border-radius:4px;background:#fff}
+.chip.gold{border-color:var(--amber);color:#8a5a00;background:var(--amber-tint)}
+h1.title{font-family:var(--disp);font-weight:900;font-size:clamp(2.6rem,6.4vw,4.6rem);letter-spacing:-.01em;text-transform:uppercase}
+h1.title .accent{color:var(--blue)}
+h1.title .fchip{display:inline-block;font-size:.32em;vertical-align:.85em;background:var(--ink);color:#fff;padding:7px 14px;border-radius:8px;letter-spacing:.02em;transform:rotate(-2deg);margin-left:10px;font-weight:700}
+.subtitle{font-family:var(--frm);font-style:italic;font-size:clamp(1.05rem,2vw,1.35rem);color:var(--ink-soft);margin:12px 0 22px}
+.teacher{display:flex;gap:14px;align-items:center;background:#fff;border:1.5px solid var(--line);border-left:6px solid var(--amber);border-radius:8px;padding:14px 18px;box-shadow:var(--shadow);max-width:520px}
+.teacher .ava{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-deep));color:#fff;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:17px;flex:none}
+.teacher small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft)}
+.teacher b{font-size:15.5px}
+.goals{margin-top:22px;display:grid;gap:8px}
+.goals li{list-style:none;display:flex;gap:10px;font-size:14.5px;color:var(--ink-soft)}
+.goals li::before{content:"→";color:var(--blue);font-weight:700;flex:none}
+
+/* паспорт заняття */
+.passport{background:#fff;border:1.5px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;gap:0;position:relative;overflow:hidden}
+.passport::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.passport h3{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.p-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1.5px dashed var(--line-soft);font-size:14px}
+.p-row b{font-weight:600;text-align:right}
+.p-row span{color:var(--ink-soft)}
+.stamp{align-self:flex-end;font-family:var(--frm);font-style:italic;font-weight:600;font-size:1.5rem;color:var(--blue-deep);border:3px double var(--blue);border-radius:10px;padding:8px 20px;transform:rotate(-4deg);margin-top:16px;background:var(--blue-tint)}
+.p-demos{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.p-demos span{font-family:var(--mono);font-size:11px;background:#f1f5fb;border:1px solid var(--line-soft);border-radius:4px;padding:4px 8px;color:var(--ink-soft)}
+
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:10px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin:64px 0 10px;flex-wrap:wrap}
+.sec-num{font-family:var(--disp);font-weight:900;font-size:clamp(2.4rem,5vw,3.6rem);color:transparent;-webkit-text-stroke:2px var(--blue);opacity:.85;line-height:1}
+.sec-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.3rem,2.6vw,1.9rem)}
+.sec-head .tag{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);border:1px dashed var(--line);padding:4px 10px;border-radius:99px;background:#fff}
+.lede{color:var(--ink-soft);max-width:760px;margin-bottom:22px;font-size:15.5px}
+
+nav.sticky{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--line)}
+nav.sticky .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 22px}
+nav.sticky a{font-size:13px;font-weight:600;color:var(--ink-soft);text-decoration:none;padding:7px 13px;border-radius:99px;white-space:nowrap;transition:.2s;border:1.5px solid transparent}
+nav.sticky a:hover{color:var(--blue-deep);background:var(--blue-tint)}
+nav.sticky a.active{background:var(--blue);color:#fff}
+nav.sticky a.hot{border-color:var(--amber)}
+
+.frm{font-family:var(--frm);font-style:italic;font-weight:600}
+.va{position:relative;font-style:italic;font-family:var(--frm);font-weight:600}
+.va::after{content:"→";position:absolute;left:-6%;right:-6%;top:-.72em;font-size:.6em;text-align:center;font-style:normal;font-weight:400}
+.formula-big{font-family:var(--frm);font-style:italic;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.5rem);text-align:center;padding:18px;background:var(--blue-tint);border:1.5px dashed var(--blue);border-radius:8px;margin:14px 0}
+.note{font-size:13.5px;color:var(--ink-soft);border-left:3px solid var(--amber);background:var(--amber-tint);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:12px}
+.note.teal{border-color:var(--teal);background:var(--teal-tint)}
+
+.theory-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}
+.tcard{padding:26px 28px}
+.tcard h3{font-family:var(--disp);font-weight:700;font-size:1.05rem;margin-bottom:10px;display:flex;gap:10px;align-items:center}
+.tcard h3 .ico{width:34px;height:34px;flex:none;border-radius:8px;display:grid;place-items:center;font-size:17px;background:var(--blue-tint)}
+.tcard p{font-size:14.5px;color:var(--ink-soft)}
+.tcard p+p{margin-top:8px}
+.derive{font-family:var(--mono);font-size:13.5px;background:#f7faff;border:1px solid var(--line-soft);border-radius:8px;padding:12px 14px;margin-top:12px;line-height:2}
+.derive b{color:var(--blue-deep)}
+.def-chip{display:inline-block;background:var(--teal-tint);border:1.5px solid var(--teal);color:#0b6b62;font-weight:600;font-size:12.5px;padding:4px 10px;border-radius:6px;margin:4px 6px 4px 0}
+.tcard.stack{display:flex;flex-direction:column;gap:20px;grid-row:span 2}
+.tcard.full{grid-column:1 / -1}
+.two-types{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.tt{border-radius:8px;padding:14px 16px;font-size:13.5px}
+.tt b{display:block;font-size:14px;margin-bottom:4px}
+.tt.e{background:var(--blue-tint);border:1.5px solid var(--blue)}
+.tt.n{background:var(--amber-tint);border:1.5px solid var(--amber)}
+
+.lab{padding:0}
+.lab-top{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1.5px solid var(--line-soft);flex-wrap:wrap}
+.lab-id{font-family:var(--mono);font-size:11px;letter-spacing:.14em;background:var(--ink);color:#fff;padding:5px 10px;border-radius:4px}
+.lab-top h3{font-family:var(--disp);font-weight:700;font-size:1rem}
+.lab-top .hint{margin-left:auto;font-size:12.5px;color:var(--ink-soft);font-style:italic}
+.lab-body{padding:20px 22px;display:grid;gap:18px}
+canvas.sim{display:block;width:100%;border:1.5px solid var(--line-soft);border-radius:8px;background:linear-gradient(#fdfeff,#f3f7fd)}
+.ctrl-row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:end}
+.ctrl{display:flex;flex-direction:column;gap:5px;min-width:150px;flex:1}
+.ctrl label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);display:flex;justify-content:space-between}
+.ctrl label output{font-family:var(--mono);color:var(--blue-deep);font-size:12.5px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--blue) var(--fill,50%),var(--line) var(--fill,50%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--blue);box-shadow:0 2px 6px rgba(18,58,143,.35);transition:transform .15s;cursor:grab}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
+input[type=range].amber::-webkit-slider-thumb{border-color:var(--amber)}
+input[type=range].teal::-webkit-slider-thumb{border-color:var(--teal)}
+.btn{border:none;border-radius:8px;padding:11px 22px;font-weight:700;font-size:14px;background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue-deep);transition:.15s;letter-spacing:.02em}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--blue-deep)}
+.btn.ghost{background:#fff;color:var(--blue-deep);border:2px solid var(--blue);box-shadow:0 4px 0 var(--blue-tint)}
+.btn.gold{background:var(--amber);box-shadow:0 4px 0 #b06e00;color:#3d2a00}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1.5px solid var(--blue);border-radius:8px;overflow:hidden}
+.seg button{border:none;background:#fff;padding:9px 16px;font-weight:600;font-size:13px;color:var(--blue-deep);transition:.15s}
+.seg button.on{background:var(--blue);color:#fff}
+.readout{font-family:var(--mono);font-size:13px;background:#0f1d33;color:#cfe0ff;border-radius:8px;padding:12px 16px;display:flex;gap:22px;flex-wrap:wrap}
+.readout b{color:var(--amber);font-weight:600}
+.readout .ok{color:#7ee8c7}
+.bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:12px;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.bar-track{position:relative;height:22px;background:#f1f5fb;border:1px solid var(--line-soft);border-radius:6px;overflow:hidden}
+.bar-track::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.5px;background:var(--ink-soft);opacity:.4}
+.bar-fill{position:absolute;top:3px;bottom:3px;border-radius:4px;transition:width .45s cubic-bezier(.2,.8,.2,1);min-width:2px}
+.bar-fill.b1{background:var(--blue)} .bar-fill.b2{background:var(--amber)} .bar-fill.sum{background:var(--teal)} .bar-fill.ke{background:linear-gradient(90deg,var(--blue),var(--teal))} .bar-fill.ke2{background:linear-gradient(90deg,var(--amber),var(--red))}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+.presets button{font-size:12.5px;font-weight:600;border:1.5px dashed var(--blue);background:var(--blue-tint);color:var(--blue-deep);border-radius:99px;padding:6px 14px;transition:.15s}
+.presets button:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
+
+.med-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}
+.card.med::before{background:linear-gradient(90deg,var(--teal),#4cc9b0)}
+.med-list{display:grid;gap:10px;margin-top:12px}
+.med-list li{list-style:none;display:flex;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:11px 14px;font-size:14px;transition:.2s}
+.med-list li:hover{transform:translateX(6px);border-color:var(--teal);box-shadow:var(--shadow)}
+.med-list .em{font-size:20px;flex:none}
+.impact-vis{display:flex;gap:20px;align-items:center}
+.force-num{font-family:var(--disp);font-weight:900;font-size:clamp(2rem,4vw,3rem);color:var(--red);line-height:1;transition:.3s}
+.force-num small{font-size:.38em;font-weight:700;color:var(--ink-soft)}
+.mult-badge{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:600;padding:6px 12px;border-radius:6px;margin-top:8px}
+.mult-badge.danger{background:var(--red-tint);color:var(--red)}
+.mult-badge.warn{background:var(--amber-tint);color:#8a5a00}
+.mult-badge.safe{background:var(--teal-tint);color:var(--teal)}
+.force-bar{height:14px;background:#f1f5fb;border:1px solid var(--line-soft);border-radius:99px;overflow:hidden;margin-top:12px}
+.force-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber) 55%,var(--red));transition:width .35s;border-radius:99px}
+
+.tasks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.task{padding:22px;display:flex;flex-direction:column}
+.task .tno{font-family:var(--disp);font-weight:900;color:var(--amber);font-size:.85rem;letter-spacing:.1em}
+.task p{font-size:14px;color:var(--ink-soft);margin:10px 0 14px;flex:1}
+.sol-toggle{align-self:flex-start;background:none;border:none;color:var(--blue-deep);font-weight:700;font-size:13.5px;border-bottom:2px dashed var(--blue);padding:2px 0;transition:.2s}
+.sol-toggle:hover{color:var(--blue)}
+.solution{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.8,.2,1)}
+.solution.open{max-height:420px}
+.sol-inner{margin-top:14px;background:repeating-linear-gradient(#fffdf5,#fffdf5 26px,#f0e6c8 27px);border:1px solid #eadfae;border-radius:8px;padding:14px 16px;font-family:var(--frm);font-style:italic;font-size:14px;line-height:27px}
+.sol-inner b{color:var(--red)}
+
+.quiz-card{padding:26px 28px}
+.q-progress{height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.q-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .4s}
+.q-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-bottom:10px}
+.q-text{font-size:1.15rem;font-weight:600;margin-bottom:16px}
+.q-opts{display:grid;gap:10px}
+.q-opt{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:13px 16px;font-size:14.5px;font-family:inherit;transition:.18s;display:flex;gap:12px;align-items:center}
+.q-opt .key{width:26px;height:26px;flex:none;border-radius:6px;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-soft);transition:.18s}
+.q-opt:hover:not(:disabled){border-color:var(--blue);transform:translateX(6px);box-shadow:var(--shadow)}
+.q-opt:hover:not(:disabled) .key{background:var(--blue);border-color:var(--blue);color:#fff}
+.q-opt:disabled{cursor:default;opacity:.75}
+.q-opt.correct{border-color:var(--teal);background:var(--teal-tint);opacity:1}
+.q-opt.correct .key{background:var(--teal);border-color:var(--teal);color:#fff}
+.q-opt.wrong{border-color:var(--red);background:var(--red-tint);opacity:1}
+.q-opt.wrong .key{background:var(--red);border-color:var(--red);color:#fff}
+.q-why{margin-top:14px;padding:13px 16px;border-radius:8px;font-size:13.5px;background:var(--blue-tint);border-left:4px solid var(--blue);display:none}
+.q-why.show{display:block;animation:pop .35s}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.q-result{text-align:center;padding:20px 0}
+.q-result .score{font-family:var(--disp);font-weight:900;font-size:3rem;color:var(--blue)}
+.q-result .verdict{font-size:1.1rem;font-weight:600;margin:6px 0 16px}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+footer{margin-top:80px;background:var(--ink);color:#c8d6ea;padding:44px 0 30px;position:relative;z-index:1}
+.foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:26px}
+.foot-mark{font-family:var(--disp);font-weight:900;font-size:2rem;color:#fff}
+.foot-mark span{color:var(--amber)}
+footer h4{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fa4c2;margin-bottom:10px}
+footer p{font-size:13.5px}
+.foot-bottom{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-size:12px;color:#8fa4c2;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media(max-width:960px){
+  .hero-grid,.theory-grid,.med-grid{grid-template-columns:1fr}
+  .tasks{grid-template-columns:1fr}
+  .tcard.stack{grid-row:auto}
+  .two-types{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:96px 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="amb a1">p=mv</div>
+<div class="amb a2">Σp=const</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="chips">
+        <span class="chip gold">Онлайн-заняття · Фізика</span>
+        <span class="chip">1 курс · 10 клас</span>
+        <span class="chip">Медичний коледж</span>
+        <span class="chip">Вівторок · 03.11.2026</span>
+      </div>
+      <h1 class="title">Імпульс <span class="fchip">p = m·v</span><br><span class="accent">і закон його збереження</span></h1>
+      <p class="subtitle">Чому гармата «б’є» в плече, куля застрягає в блоці, а при стрибку треба згинати ноги — мовами однієї формули.</p>
+      <div class="teacher">
+        <div class="ava">РА</div>
+        <div>
+          <small>Підготував і проводить</small>
+          <b>Анікушин Роман Сергійович</b>
+          <small style="text-transform:none;letter-spacing:0">викладач фізики і астрономії</small>
+        </div>
+      </div>
+      <ul class="goals">
+        <li>Зберемо «конструктор» імпульсу та одиниці вимірювання;</li>
+        <li>Проведемо 5 віртуальних дослідів: зіткнення, віддача, балістичний маятник, удар об перешкоду;</li>
+        <li>З’ясуємо, як закон збереження імпульсу працює в біомеханіці та медицині;</li>
+        <li>Розв’яжемо задачі й пройдемо підсумковий тест.</li>
+      </ul>
+    </div>
+    <div class="passport rv in">
+      <h3>Паспорт заняття</h3>
+      <div class="p-row"><span>Тема</span><b>Імпульс. Закон збереження імпульсу</b></div>
+      <div class="p-row"><span>Тип</span><b>онлайн-заняття з віртуальними дослідами</b></div>
+      <div class="p-row"><span>Тривалість</span><b>45 хв</b></div>
+      <div class="p-row"><span>Обладнання</span><b>браузер · інтерактивні моделі</b></div>
+      <div class="p-row"><span>Форма контролю</span><b>задачі + тест (7 запитань)</b></div>
+      <div class="p-demos">
+        <span>ДЕМО 01 · конструктор</span>
+        <span>ДЕМО 02 · зіткнення</span>
+        <span>ДЕМО 03 · віддача</span>
+        <span>ДЕМО 04 · балістичний маятник</span>
+        <span>ДЕМО 05 · сила удару</span>
+      </div>
+      <div class="stamp">Σp⃗ = const</div>
+    </div>
+  </div>
+</header>
+
+<nav class="sticky" id="nav">
+  <div class="wrap">
+    <a href="#teoriya">01 Теорія</a>
+    <a href="#builder">02 Конструктор</a>
+    <a href="#collab">03 Лабораторія зіткнень</a>
+    <a href="#recoil">04 Віддача</a>
+    <a href="#balistik">05 Балістичний маятник</a>
+    <a href="#med">06 Фізика і медицина</a>
+    <a href="#zadachi">07 Задачі</a>
+    <a href="#test" class="hot">08 Тест</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ 01 ТЕОРІЯ ============ -->
+<section id="teoriya">
+  <div class="sec-head rv"><span class="sec-num">01</span><h2>Теоретичний блок</h2><span class="tag">конспект · 10 хв</span></div>
+  <p class="lede rv">У 1644 році Рене Декарт запропонував міряти «кількість руху» добутком маси тіла на його швидкість. Ця величина виявилася настільки фундаментальною, що для неї ввели окремий термін — <b>імпульс</b>.</p>
+
+  <div class="theory-grid">
+    <div class="card tcard wide rv">
+      <h3><span class="ico">🎯</span>Імпульс тіла</h3>
+      <div class="formula-big"><span class="va">p</span> = m · <span class="va">v</span></div>
+      <p><b>Імпульс</b> — векторна фізична величина, що дорівнює добутку маси тіла на його швидкість. Напрямлений імпульс <b>туди ж, куди й швидкість</b>.</p>
+      <p style="margin-top:8px">Одиниця в СІ: <b style="font-family:var(--mono)">1 кг·м/с</b> — імпульс тіла масою 1 кг, що рухається зі швидкістю 1 м/с.</p>
+      <div class="note">💡 Корисна альтернативна одиниця: <b>Н·с</b> (ньютон-секунда). Вона чисельно збігається з кг·м/с і природно виникає, коли говорять про <i>імпульс сили</i>.</div>
+    </div>
+
+    <div class="card tcard stack rv">
+      <div>
+        <h3><span class="ico">⚡</span>Імпульс сили</h3>
+        <p>З другого закону Ньютона: <span class="frm">F = m·a = m·Δv/Δt</span>, тож</p>
+        <div class="formula-big" style="font-size:1.5rem"><span class="va">F</span>·Δt = Δ<span class="va">p</span></div>
+        <p>Добуток сили на час її дії дорівнює <b>зміні імпульсу</b> тіла. Саме ця форма запису — головний інструмент лікаря при аналізі травм!</p>
+      </div>
+      <div>
+        <h3><span class="ico">🔒</span>Закон збереження</h3>
+        <span class="def-chip">Замкнена система</span>
+        <span class="def-chip">Зовнішніх сил немає</span>
+        <p style="margin-top:8px">У замкненій системі векторна сума імпульсів тіл залишається сталою за будь-яких взаємодій усередині системи:</p>
+        <div class="formula-big" style="font-size:1.5rem">Σ<span class="va">p</span> = const</div>
+        <div class="derive">
+          За ІІІ законом Ньютона: <b>F₁ = −F₂</b><br>
+          Домножимо на Δt: <b>F₁Δt = −F₂Δt</b><br>
+          Тобто: <b>Δp₁ = −Δp₂</b> ⇒ Δ(p₁ + p₂) = 0 ∎
+        </div>
+      </div>
+    </div>
+
+    <div class="card tcard full rv">
+      <h3><span class="ico">💥</span>Два граничні випадки зіткнення</h3>
+      <div class="two-types">
+        <div class="tt e"><b>Пружне зіткнення</b>Зберігаються і імпульс, і кінетична енергія. Тіла відскакують. Приклади: більярдні кулі, зіткнення атомів і молекул у газах.</div>
+        <div class="tt n"><b>Абсолютно непружне зіткнення</b>Тіла злипаються й рухаються разом. Імпульс зберігається, але частина кінетичної енергії переходить у внутрішню (деформацію, тепло). Приклади: куля в балістичному маятнику, автотрощ, приземлення на мати.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 КОНСТРУКТОР ============ -->
+<section id="builder">
+  <div class="sec-head rv"><span class="sec-num">02</span><h2>Конструктор імпульсу</h2><span class="tag">інтерактив</span></div>
+  <div class="card lab rv">
+    <div class="lab-top"><span class="lab-id">ДЕМО 01</span><h3>Збери власний імпульс</h3><span class="hint">задав параметри — натисни «Запустити»</span></div>
+    <div class="lab-body" style="grid-template-columns:300px 1fr">
+      <div class="ctrl-row" style="flex-direction:column;align-items:stretch;gap:18px">
+        <div class="ctrl">
+          <label>Маса тіла <output id="bmOut">3 кг</output></label>
+          <input type="range" id="bm" min="1" max="10" step="0.5" value="3">
+        </div>
+        <div class="ctrl">
+          <label>Швидкість <output id="bvOut">6 м/с</output></label>
+          <input type="range" id="bv" class="amber" min="0" max="15" step="0.5" value="6">
+        </div>
+        <div class="readout" style="flex-direction:column;gap:6px">
+          <span>p = m · v = <span id="bCalc">3 · 6</span></span>
+          <span style="font-size:22px">p = <b id="bVal">18,0 кг·м/с</b></span>
+        </div>
+        <button class="btn" id="bRun">▶ Запустити тіло</button>
+      </div>
+      <canvas id="builderCv" class="sim" style="height:210px"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 ЛАБОРАТОРІЯ ЗІТКНЕНЬ ============ -->
+<section id="collab">
+  <div class="sec-head rv"><span class="sec-num">03</span><h2>Віртуальна лабораторія зіткнень</h2><span class="tag">головний дослід</span></div>
+  <p class="lede rv">Два тіла на рейці без тертя. Задай маси та швидкості, обери тип удару і перевір: <b>сумарний імпульс до зіткнення дорівнює сумарному після</b>. Після зіткнення рух автоматично зупиняється — як у справжній лабораторії, коли вимірювання вже зафіксовано.</p>
+  <div class="card lab rv">
+    <div class="lab-top"><span class="lab-id">ДЕМО 02</span><h3>Зіткнення двох тіл</h3><span class="hint">довжина рейки — 10 м</span></div>
+    <div class="lab-body">
+      <canvas id="collCv" class="sim" style="height:250px"></canvas>
+      <div class="ctrl-row">
+        <div class="ctrl"><label>Маса m₁ <output id="cm1Out">2 кг</output></label><input type="range" id="cm1" min="0.5" max="10" step="0.5" value="2"></div>
+        <div class="ctrl"><label>Швидкість v₁ <output id="cv1Out">+3 м/с</output></label><input type="range" id="cv1" min="-5" max="5" step="0.5" value="3"></div>
+        <div class="ctrl"><label>Маса m₂ <output id="cm2Out">4 кг</output></label><input type="range" id="cm2" class="amber" min="0.5" max="10" step="0.5" value="4"></div>
+        <div class="ctrl"><label>Швидкість v₂ <output id="cv2Out">0 м/с</output></label><input type="range" id="cv2" class="amber" min="-5" max="5" step="0.5" value="0"></div>
+        <div class="ctrl" style="flex:0 0 auto;min-width:0"><label>&nbsp;</label>
+          <div class="seg"><button id="segE" class="on">Пружний</button><button id="segN">Непружний</button></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="collStart">▶ Старт</button>
+        <button class="btn ghost" id="collReset">⟲ Скинути</button>
+        <div class="presets" style="margin-left:auto">
+          <button data-p="billiard">🎱 Більярд</button>
+          <button data-p="catch">🚃 Візок наздоганяє</button>
+          <button data-p="swap">🔄 Обмін швидкостями</button>
+        </div>
+      </div>
+      <div class="bars">
+        <div class="bar-row">Σp · до <div class="bar-track"><div class="bar-fill b1" id="pb1"></div><div class="bar-fill b2" id="pb2"></div></div></div>
+        <div class="bar-row">Σp · після <div class="bar-track"><div class="bar-fill sum" id="pbA"></div></div></div>
+        <div class="bar-row">Eк · до <div class="bar-track"><div class="bar-fill ke" id="eb1" style="left:0"></div></div></div>
+        <div class="bar-row">Eк · після <div class="bar-track"><div class="bar-fill ke2" id="eb2" style="left:0"></div></div></div>
+      </div>
+      <div class="readout">
+        <span>p₁ = <b id="rp1">6,0</b></span><span>p₂ = <b id="rp2">0,0</b></span>
+        <span>Σp = <b id="rps">6,0 кг·м/с</b></span>
+        <span>Eк = <b id="rke">9,0 Дж</b></span>
+        <span id="rLoss" class="ok"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 ВІДДАЧА ============ -->
+<section id="recoil">
+  <div class="sec-head rv"><span class="sec-num">04</span><h2>Дослід із віддачею</h2><span class="tag">Σp = 0</span></div>
+  <p class="lede rv">До пострілу гармата і ядро — одне ціле, їхній сумарний імпульс дорівнює нулю. Після пострілу імпульси ядра і гармати мають бути <b>рівними за модулем і протилежними за напрямом</b> — інакше закон не виконається.</p>
+  <div class="card lab rv">
+    <div class="lab-top"><span class="lab-id">ДЕМО 03</span><h3>Постріл на льоду</h3><span class="hint">тертя немає — ідеальні умови</span></div>
+    <div class="lab-body">
+      <canvas id="recCv" class="sim" style="height:230px"></canvas>
+      <div class="ctrl-row">
+        <div class="ctrl"><label>Маса гармати M <output id="rmMOut">300 кг</output></label><input type="range" id="rmM" min="100" max="800" step="25" value="300"></div>
+        <div class="ctrl"><label>Маса ядра m <output id="rmmOut">5 кг</output></label><input type="range" id="rmm" class="amber" min="1" max="20" step="1" value="5"></div>
+        <div class="ctrl"><label>Швидкість ядра u <output id="rmuOut">300 м/с</output></label><input type="range" id="rmu" class="teal" min="50" max="600" step="10" value="300"></div>
+        <div class="ctrl" style="flex:0 0 auto;min-width:0"><label>&nbsp;</label><div class="btn-row"><button class="btn gold" id="recFire">💥 Вогонь!</button><button class="btn ghost" id="recReset">⟲</button></div></div>
+      </div>
+      <div class="readout">
+        <span>v гармати = <b id="recV">5,0 м/с ←</b></span>
+        <span>p ядра = <b id="recP1">+1500 кг·м/с</b></span>
+        <span>p гармати = <b id="recP2">−1500 кг·м/с</b></span>
+        <span class="ok">Σp = 0 ✓</span>
+      </div>
+      <div class="note">🩺 <b>Зв’язок із майбутньою професією:</b> при пострілі приклад б’є у плече. Той самий Δp, але плече з м’язами і тканинами збільшує час зупинки Δt — тож сила віддачі зменшується (див. розділ 06).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 БАЛІСТИЧНИЙ МАЯТНИК ============ -->
+<section id="balistik">
+  <div class="sec-head rv"><span class="sec-num">05</span><h2>Балістичний маятник</h2><span class="tag">непружний удар + збереження енергії</span></div>
+  <p class="lede rv">Так у ХІХ столітті вимірювали швидкість кулі: куля влучає в підвішений блок і <b>застрягає в ньому</b> (абсолютно непружний удар), блок відхиляється, і за висотою підйому обчислюють швидкість. Два закони в одному досліді: спочатку — збереження імпульсу, потім — збереження енергії.</p>
+  <div class="card lab rv">
+    <div class="lab-top"><span class="lab-id">ДЕМО 04</span><h3>Куля влучає в блок</h3><span class="hint">довжина підвісу L = 1,1 м</span></div>
+    <div class="lab-body">
+      <canvas id="balCv" class="sim" style="height:310px"></canvas>
+      <div class="ctrl-row">
+        <div class="ctrl"><label>Маса кулі m <output id="bmBOut">10 г</output></label><input type="range" id="bmB" min="5" max="50" step="1" value="10"></div>
+        <div class="ctrl"><label>Швидкість кулі u <output id="buBOut">300 м/с</output></label><input type="range" id="buB" class="amber" min="100" max="500" step="10" value="300"></div>
+        <div class="ctrl"><label>Маса блока M <output id="bMBOut">2 кг</output></label><input type="range" id="bMB" class="teal" min="1" max="10" step="0.5" value="2"></div>
+        <div class="ctrl" style="flex:0 0 auto;min-width:0"><label>&nbsp;</label><div class="btn-row"><button class="btn" id="balFire">🔫 Постріл</button><button class="btn ghost" id="balReset">⟲</button></div></div>
+      </div>
+      <div class="readout">
+        <span>v спільна = <b id="balV">1,49 м/с</b></span>
+        <span>Висота підйому h = <b id="balH">11,3 см</b></span>
+        <span>Кут відхилення ≈ <b id="balA">26°</b></span>
+        <span id="balE" class="ok"></span>
+      </div>
+      <div class="note teal">📜 <b>Історичний факт:</b> балістичний маятник — один із перших приладів для вимірювання швидкості кулі (Б. Робінс, 1742 р.). Електронних датчиків тоді не було, а закон збереження імпульсу — вже працював.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 МЕДИЦИНА ============ -->
+<section id="med">
+  <div class="sec-head rv"><span class="sec-num">06</span><h2>Фізика для медика: імпульс сили</h2><span class="tag">професійний акцент</span></div>
+  <p class="lede rv">З рівняння <span class="frm">F·Δt = Δp</span> випливає проста і рятувальна ідея: <b>зміну імпульсу неможливо «скасувати», але її можна розтягнути в часі</b> — і тоді сила зменшиться у стільки ж разів.</p>
+  <div class="med-grid">
+    <div class="card tcard med rv">
+      <h3><span class="ico">🏥</span>Де це працює</h3>
+      <ul class="med-list">
+        <li><span class="em">🚗</span><span><b>Подушка безпеки</b> збільшує час зупинки тіла з ~0,03 с до ~0,3 с — сила падає у ~10 разів.</span></li>
+        <li><span class="em">🦵</span><span><b>Приземлення на зігнуті ноги</b> подовжує гальмування у 10–20 разів порівняно з прямими ногами.</span></li>
+        <li><span class="em">🥊</span><span><b>Боксерські рукавички та мати</b> — те саме подовження Δt, тільки для удару.</span></li>
+        <li><span class="em">🪖</span><span><b>Шолом</b> розподіляє удар і збільшує час зупинки голови — профілактика ЧМТ.</span></li>
+        <li><span class="em">🚙</span><span><b>Краш-зони авто</b> мнуться і «з’їдають» шлях зупинки замість пасажирів.</span></li>
+      </ul>
+    </div>
+    <div class="card lab med rv">
+      <div class="lab-top"><span class="lab-id" style="background:var(--teal)">ДЕМО 05</span><h3>Стрибок на землю: порахуй силу</h3><span class="hint">m = 60 кг, падіння з ≈1,8 м (Δp = 360 кг·м/с)</span></div>
+      <div class="lab-body">
+        <div class="impact-vis">
+          <svg id="legFig" width="120" height="150" viewBox="0 0 120 150" style="flex:none">
+            <line x1="10" y1="140" x2="110" y2="140" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+            <path id="legL" d="M60 70 L50 105 L46 138" stroke="#152640" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path id="legR" d="M60 70 L70 105 L74 138" stroke="#152640" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <line x1="60" y1="70" x2="60" y2="38" stroke="#152640" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="60" cy="28" r="11" fill="#152640"/>
+            <path id="forceArrow" d="M60 138 L60 118" stroke="#dd4a3f" stroke-width="6" stroke-linecap="round" marker-end="url(#ah)"/>
+            <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dd4a3f"/></marker></defs>
+          </svg>
+          <div style="flex:1">
+            <div class="ctrl" style="margin-bottom:14px">
+              <label>Час зупинки Δt <output id="dtOut">0,20 с</output></label>
+              <input type="range" id="dt" class="teal" min="0.01" max="0.6" step="0.01" value="0.2">
+            </div>
+            <div class="force-num"><span id="fVal">1,8</span> кН <small>сила удару</small></div>
+            <span class="mult-badge warn" id="fBadge">≈ 3,1 × вага тіла</span>
+            <div class="force-bar"><i id="fBar" style="width:12%"></i></div>
+            <div class="presets" style="margin-top:12px">
+              <button data-dt="0.02">🦴 Прямі ноги</button>
+              <button data-dt="0.2">🦵 Зігнуті ноги</button>
+              <button data-dt="0.5">🟦 Приземлення на мат</button>
+            </div>
+          </div>
+        </div>
+        <div class="readout"><span>F = Δp / Δt = 360 / <b id="fDen">0,2</b> = <b id="fCalc">1800 Н</b></span><span class="ok" id="fMsg">навантаження помірне</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 ЗАДАЧІ ============ -->
+<section id="zadachi">
+  <div class="sec-head rv"><span class="sec-num">07</span><h2>Задачі для розв’язування</h2><span class="tag">спробуй сам, потім відкрий розв’язок</span></div>
+  <div class="tasks">
+    <div class="card task rv">
+      <span class="tno">ЗАДАЧА 1 · рівень ★</span>
+      <p>М’яч масою <b>0,4 кг</b> летить горизонтально зі швидкістю <b>5 м/с</b>, вдаряється об стіну і відскакує з такою самою за модулем швидкістю. Знайдіть <b>зміну імпульсу</b> м’яча.</p>
+      <button class="sol-toggle">Показати розв’язок ▾</button>
+      <div class="solution"><div class="sol-inner">Оберемо вісь відрізка від стіни. Тоді Δp = mv₂ − mv₁ = m·v − m·(−v) = 2mv = 2·0,4·5 = <b>4 кг·м/с</b>. Зверни увагу: швидкість змінила лише напрям, а зміна імпульсу — найбільша з можливих!</div></div>
+    </div>
+    <div class="card task rv">
+      <span class="tno">ЗАДАЧА 2 · рівень ★★</span>
+      <p>Візок масою <b>3 кг</b> рухається зі швидкістю <b>2 м/с</b> і наздоганяє нерухомий візок масою <b>1 кг</b>. Після зіткнення возики зчеплюються. Знайдіть їхню спільну швидкість. Куди «зникла» енергія?</p>
+      <button class="sol-toggle">Показати розв’язок ▾</button>
+      <div class="solution"><div class="sol-inner">ЗЗІ: 3·2 = (3+1)·v ⇒ v = <b>1,5 м/с</b>. Енергія: було ½·3·4 = 6 Дж, стало ½·4·2,25 = 4,5 Дж. <b>1,5 Дж (25%)</b> перейшли у тепло і деформацію зчеплення — удар непружний.</div></div>
+    </div>
+    <div class="card task rv">
+      <span class="tno">ЗАДАЧА 3 · рівень ★★★</span>
+      <p>Куля масою <b>10 г</b> летить зі швидкістю <b>300 м/с</b> і влучає в нерухомий дерев’яний блок масою <b>2 кг</b>, підвішений на нитках (балістичний маятник), і застрягає в ньому. З якою швидкістю рухатиметься блок із кулею одразу після удару?</p>
+      <button class="sol-toggle">Показати розв’язок ▾</button>
+      <div class="solution"><div class="sol-inner">ЗЗІ для непружного удару: m·u = (m+M)·v ⇒ v = 0,01·300 / 2,01 ≈ <b>1,49 м/с</b>. Швидкість зменшилась у 200 разів — стільки ж, у скільки куля легша за блок. Саме це ми бачили в досліді 04.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 ТЕСТ ============ -->
+<section id="test">
+  <div class="sec-head rv"><span class="sec-num">08</span><h2>Підсумковий тест</h2><span class="tag">7 запитань · без обмеження часу</span></div>
+  <div class="card quiz-card rv" id="quiz"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-mark">Σp<span> = const</span></div>
+        <p style="margin-top:10px;max-width:340px">Імпульс зберігається завжди і всюди — від зіткнень молекул до маневрів космічних апаратів. Сьогодні ви перевірили це власноруч.</p>
+      </div>
+      <div>
+        <h4>Заняття</h4>
+        <p>Фізика · 1 курс (10 клас)<br>Тема: «Імпульс. Закон збереження імпульсу»<br>Вівторок, 3 листопада 2026 р.</p>
+      </div>
+      <div>
+        <h4>Викладач</h4>
+        <p>Анікушин Роман Сергійович,<br>викладач фізики і астрономії.<br>Медичний коледж.</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Домашнє завдання: опрацювати § «Імпульс. ЗЗІ», задачі № 1–3 із підручника; за бажанням — зняти відео досліду з візками або м’ячами.</span>
+      <span>Сторінка працює офлайн у браузері ✓</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==================== УТИЛІТИ ==================== */
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const fmt=(n,d=1)=>n.toFixed(d).replace('.',',');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+(()=>{const items=['p⃗ = m·v⃗','Σp⃗ = const','F⃗·Δt = Δp⃗','замкнена система','пружний удар','непружний удар','віддача','кг·м/с','Н·с','Δp₁ = −Δp₂'];
+const s=items.map(t=>`<span>✦ &nbsp;${t}</span>`).join('');
+$('#ticker').innerHTML=s+s;})();
+
+function paintRange(el){const p=(el.value-el.min)/(el.max-el.min)*100;el.style.setProperty('--fill',p+'%');}
+$$('input[type=range]').forEach(el=>{paintRange(el);el.addEventListener('input',()=>paintRange(el));});
+
+$$('.sol-toggle').forEach(b=>b.addEventListener('click',()=>{
+  const sol=b.nextElementSibling;const open=sol.classList.toggle('open');
+  b.textContent=open?'Сховати розв’язок ▴':'Показати розв’язок ▾';
+}));
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
+$$('.rv').forEach(el=>io.observe(el));
+const secIds=['teoriya','builder','collab','recoil','balistik','med','zadachi','test'];
+const navIo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+  $$('#nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}});},
+  {rootMargin:'-35% 0px -55% 0px'});
+secIds.forEach(id=>{const el=document.getElementById(id);if(el)navIo.observe(el);});
+
+const vis={};
+const visIo=new IntersectionObserver(es=>es.forEach(e=>vis[e.target.id]=e.isIntersecting),{threshold:.05});
+['builderCv','collCv','recCv','balCv'].forEach(id=>visIo.observe(document.getElementById(id)));
+
+function fit(cv){const r=cv.getBoundingClientRect();const d=devicePixelRatio||1;
+  if(cv.width!==Math.round(r.width*d)||cv.height!==Math.round(r.height*d)){cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);}
+  const ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);return{ctx,W:r.width,H:r.height};}
+addEventListener('resize',()=>['builderCv','collCv','recCv','balCv'].forEach(id=>fit(document.getElementById(id))));
+
+function arrow(ctx,x,y,dx,dy,color,w=3){
+  const len=Math.hypot(dx,dy);if(len<6)return;
+  const ang=Math.atan2(dy,dx);
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+dx,y+dy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x+dx,y+dy);
+  ctx.lineTo(x+dx-11*Math.cos(ang-.4),y+dy-11*Math.sin(ang-.4));
+  ctx.lineTo(x+dx-11*Math.cos(ang+.4),y+dy-11*Math.sin(ang+.4));
+  ctx.closePath();ctx.fill();
+}
+
+/* ==================== 02: КОНСТРУКТОР (один прохід) ==================== */
+const bld={x:null,run:false};
+function builderLaunch(){bld.x=null;bld.run=+$('#bv').value>0;}
+$('#bRun').addEventListener('click',builderLaunch);
+['bm','bv'].forEach(id=>$('#'+id).addEventListener('input',()=>{if(!bld.run)builderLaunch();}));
+function builderStep(dt){
+  const cv=$('#builderCv'),{ctx,W,H}=fit(cv);ctx.clearRect(0,0,W,H);
+  const m=+$('#bm').value,v=+$('#bv').value,p=m*v;
+  $('#bmOut').textContent=fmt(m,m%1?1:0)+' кг';
+  $('#bvOut').textContent=fmt(v,v%1?1:0)+' м/с';
+  $('#bCalc').textContent=`${fmt(m,m%1?1:0)} · ${fmt(v,v%1?1:0)}`;
+  $('#bVal').textContent=fmt(p)+' кг·м/с';
+  const rad=10+m*2.2,start=rad+18,end=W-rad-18;
+  if(bld.run){
+    if(bld.x===null)bld.x=start;
+    bld.x+=(60+v*25)*dt;
+    if(bld.x>=end){bld.x=end;bld.run=false;}
+  }
+  const x=bld.x===null?start:bld.x,y=H*0.62;
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,y+rad+2);ctx.lineTo(W,y+rad+2);ctx.stroke();
+  ctx.fillStyle='#94a3b8';ctx.font='10px IBM Plex Mono';ctx.textAlign='left';ctx.fillText('старт',start-14,y+rad+18);
+  ctx.textAlign='right';ctx.fillText('фініш',end+14,y+rad+18);
+  const gr=ctx.createRadialGradient(x-rad*.3,y-rad*.35,rad*.15,x,y,rad);
+  gr.addColorStop(0,'#7fa9f7');gr.addColorStop(1,'#1d5ed8');
+  ctx.fillStyle=gr;ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='600 12px IBM Plex Mono';ctx.textAlign='center';
+  ctx.fillText(fmt(m,m%1?1:0)+' кг',x,y+4);
+  if(p>0.1)arrow(ctx,x,y-rad-18,Math.min(p*2.2,W*.42),0,'#dd4a3f',4);
+  ctx.fillStyle='#44566f';ctx.font='italic 600 15px IBM Plex Serif';
+  ctx.fillText('p = '+fmt(p)+' кг·м/с',Math.max(x,90),y-rad-34);
+  if(!bld.run&&bld.x===end){ctx.fillStyle='#0d9488';ctx.font='700 12px IBM Plex Sans';ctx.fillText('пройдено ✓',end-40,y-rad-52);}
+}
+
+/* ==================== 03: ЛАБОРАТОРІЯ ЗІТКНЕНЬ (зупинка після удару) ==================== */
+const coll={running:false,stuck:false,after:false,done:false,t:0,freezeAt:null,note:'',
+  b1:{x:2.4,v:3,m:2},b2:{x:7,v:0,m:4},mode:'e',keBefore:0};
+const rM=m=>0.26+0.11*Math.sqrt(m);
+function collParams(){
+  coll.b1.m=+$('#cm1').value;coll.b2.m=+$('#cm2').value;
+  $('#cm1Out').textContent=fmt(coll.b1.m,coll.b1.m%1?1:0)+' кг';
+  $('#cm2Out').textContent=fmt(coll.b2.m,coll.b2.m%1?1:0)+' кг';
+  const f=id=>{const v=+$(id).value;return (v>0?'+':'')+fmt(v,v%1?1:0);};
+  $('#cv1Out').textContent=f('#cv1')+' м/с';
+  $('#cv2Out').textContent=f('#cv2')+' м/с';
+  if(!coll.running&&!coll.done){coll.b1.v=+$('#cv1').value;coll.b2.v=+$('#cv2').value;collBarsPreview();}
+  updateCollRead();
+}
+['cm1','cm2','cv1','cv2'].forEach(id=>$('#'+id).addEventListener('input',collParams));
+$('#segE').onclick=()=>{coll.mode='e';$('#segE').classList.add('on');$('#segN').classList.remove('on');};
+$('#segN').onclick=()=>{coll.mode='n';$('#segN').classList.add('on');$('#segE').classList.remove('on');};
+$('#collStart').onclick=()=>{
+  if(coll.done)collReset(true);
+  coll.running=true;coll.note='';
+  coll.b1.v=+$('#cv1').value;coll.b2.v=+$('#cv2').value;
+  $('#collStart').disabled=true;
+};
+$('#collReset').onclick=()=>collReset(false);
+function collReset(soft){
+  coll.running=false;coll.stuck=false;coll.after=false;coll.done=false;
+  coll.t=0;coll.freezeAt=null;coll.note='';
+  coll.b1.x=2.4;coll.b2.x=7;
+  coll.b1.v=+$('#cv1').value;coll.b2.v=+$('#cv2').value;
+  if(!soft)$('#collStart').disabled=false;
+  $('#rLoss').textContent='';
+  collBarsPreview();
+}
+$$('.presets [data-p]').forEach(b=>b.addEventListener('click',()=>{
+  const p=b.dataset.p;const set=(a,v)=>{$('#'+a).value=v;paintRange($('#'+a));};
+  if(p==='billiard'){set('cm1',2);set('cm2',2);set('cv1',4);set('cv2',0);$('#segE').click();}
+  if(p==='catch'){set('cm1',6);set('cm2',2);set('cv1',3);set('cv2',1);$('#segN').click();}
+  if(p==='swap'){set('cm1',4);set('cm2',4);set('cv1',3.5);set('cv2',-2);$('#segE').click();}
+  collParams();collReset(false);
+}));
+function ke(){return .5*coll.b1.m*coll.b1.v**2+.5*coll.b2.m*coll.b2.v**2;}
+function pSum(){return coll.b1.m*coll.b1.v+coll.b2.m*coll.b2.v;}
+function setBar(id,val,max){
+  const el=$('#'+id);const w=Math.min(49,Math.abs(val)/max*48);
+  if(val>=0){el.style.left='50%';el.style.right='auto';}
+  else{el.style.right='50%';el.style.left='auto';}
+  el.style.width=w+'%';
+}
+function collBarsPreview(){
+  const p1=coll.b1.m*coll.b1.v,p2=coll.b2.m*coll.b2.v,p0=p1+p2;
+  const pm=Math.max(Math.abs(p0),.01),km=Math.max(ke(),.01);
+  setBar('pb1',p1,pm);setBar('pb2',p2,pm);setBar('pbA',p0,pm);
+  $('#eb1').style.width=Math.min(98,ke()/km*96)+'%';
+  $('#eb2').style.width=Math.min(98,ke()/km*96)+'%';
+  updateCollRead();
+}
+function showAfter(){
+  const p0=pSum(),km=Math.max(coll.keBefore,.01);
+  setBar('pbA',p0,Math.max(Math.abs(p0),.01));
+  $('#eb2').style.width=Math.min(98,ke()/km*96)+'%';
+  const loss=coll.keBefore>0?(1-ke()/coll.keBefore)*100:0;
+  $('#rLoss').textContent=loss>0.5?`втрата Eк: ${fmt(loss,0)} %`:'Eк збережено ✓';
+  $('#rLoss').style.color=loss>0.5?'#f0b429':'#7ee8c7';
+}
+function updateCollRead(){
+  $('#rp1').textContent=fmt(coll.b1.m*coll.b1.v);
+  $('#rp2').textContent=fmt(coll.b2.m*coll.b2.v);
+  $('#rps').textContent=fmt(pSum())+' кг·м/с';
+  $('#rke').textContent=fmt(ke())+' Дж';
+}
+function collFreeze(msg){
+  coll.b1.v=0;coll.b2.v=0;coll.running=false;coll.done=true;coll.note=msg;
+  $('#collStart').disabled=false;
+}
+function collStep(dt){
+  const {ctx,W,H}=fit($('#collCv'));ctx.clearRect(0,0,W,H);
+  const pad=26,ppm=(W-2*pad)/10,trackY=H*0.66;
+  const X=m=>pad+m*ppm;
+  if(coll.running){
+    dt=Math.min(dt,0.03);coll.t+=dt;
+    coll.b1.x+=coll.b1.v*dt;coll.b2.x+=coll.b2.v*dt;
+    const r1=rM(coll.b1.m),r2=rM(coll.b2.m);
+    /* тіло доїхало до краю рейки — зупиняємо (без відбиття) */
+    if(coll.b1.x<r1){coll.b1.x=r1;coll.b1.v=0;if(coll.stuck)coll.b2.v=0;}
+    if(coll.b2.x>10-r2){coll.b2.x=10-r2;coll.b2.v=0;if(coll.stuck)coll.b1.v=0;}
+    /* зіткнення */
+    if(!coll.stuck&&coll.b2.x-coll.b1.x<=r1+r2&&coll.b1.v>coll.b2.v){
+      coll.keBefore=ke();
+      const m1=coll.b1.m,m2=coll.b2.m,v1=coll.b1.v,v2=coll.b2.v;
+      if(coll.mode==='e'){
+        coll.b1.v=((m1-m2)*v1+2*m2*v2)/(m1+m2);
+        coll.b2.v=((m2-m1)*v2+2*m1*v1)/(m1+m2);
+      }else{
+        const v=(m1*v1+m2*v2)/(m1+m2);coll.b1.v=coll.b2.v=v;coll.stuck=true;
+      }
+      coll.after=true;coll.freezeAt=coll.t+1.6;showAfter();
+    }
+    /* автоматична зупинка після зіткнення */
+    if(coll.after&&coll.freezeAt!==null&&coll.t>=coll.freezeAt)collFreeze('🏁 Вимірювання виконано — рух зупинено');
+    /* роз’їхалися без зіткнення */
+    if(!coll.after&&coll.b1.v===0&&coll.b2.v===0)collFreeze('Зіткнення не відбулося — тіла роз’їхалися');
+    if(!coll.after&&coll.t>8)collFreeze('Зіткнення не відбулося');
+  }
+  updateCollRead();
+  /* рейка + лінійка */
+  ctx.strokeStyle='#152640';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(pad-8,trackY+30);ctx.lineTo(W-pad+8,trackY+30);ctx.stroke();
+  ctx.fillStyle='#94a3b8';ctx.font='10px IBM Plex Mono';ctx.textAlign='center';
+  for(let m=0;m<=10;m++){ctx.beginPath();ctx.moveTo(X(m),trackY+30);ctx.lineTo(X(m),trackY+36);ctx.strokeStyle='#94a3b8';ctx.lineWidth=1;ctx.stroke();ctx.fillText(m+' м',X(m),trackY+47);}
+  ctx.fillStyle='#cbd5e1';ctx.fillRect(pad-14,trackY-46,7,76);ctx.fillRect(W-pad+7,trackY-46,7,76);
+  const drawBody=(b,color,x)=>{
+    const r=rM(b.m)*ppm,y=trackY+30-r;
+    const gr=ctx.createRadialGradient(x-r*.3,y-r*.3,r*.1,x,y,r);
+    gr.addColorStop(0,color==='b'?'#8db2f8':'#ffd27a');gr.addColorStop(1,color==='b'?'#1d5ed8':'#e08900');
+    ctx.fillStyle=gr;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
+    ctx.strokeStyle='rgba(21,38,64,.4)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`700 ${Math.max(11,r*.42)}px IBM Plex Mono`;ctx.textAlign='center';
+    ctx.fillText(fmt(b.m,b.m%1?1:0),x,y+4);
+    if(Math.abs(b.v)>0.05)arrow(ctx,x,y-r-12,b.v*ppm*.3,0,color==='b'?'#1d5ed8':'#b06e00',3.5);
+  };
+  drawBody(coll.b1,'b',X(coll.b1.x));drawBody(coll.b2,'a',X(coll.b2.x));
+  if(coll.stuck){ctx.fillStyle='#dd4a3f';ctx.font='700 12px IBM Plex Sans';ctx.textAlign='center';
+    ctx.fillText('зчепились!',(X(coll.b1.x)+X(coll.b2.x))/2,trackY+30-rM((coll.b1.m+coll.b2.m))*ppm-16);}
+  if(coll.note){
+    ctx.font='700 13px IBM Plex Sans';ctx.textAlign='center';
+    ctx.fillStyle=coll.note.includes('не відбулося')?'#dd4a3f':'#0d9488';
+    ctx.fillText(coll.note,W/2,26);
+  }
+}
+collParams();collBarsPreview();
+
+/* ==================== 04: ВІДДАЧА (сцена завмирає) ==================== */
+const rec={fired:false,over:false,t:0,cx:110,px:0,smoke:[]};
+function recCalc(){
+  const M=+$('#rmM').value,m=+$('#rmm').value,u=+$('#rmu').value;
+  $('#rmMOut').textContent=M+' кг';$('#rmmOut').textContent=m+' кг';$('#rmuOut').textContent=u+' м/с';
+  const v=m*u/M;
+  $('#recV').textContent=fmt(v)+' м/с ←';
+  $('#recP1').textContent='+'+(m*u)+' кг·м/с';
+  $('#recP2').textContent='−'+(m*u)+' кг·м/с';
+  return{M,m,u,v};
+}
+['rmM','rmm','rmu'].forEach(id=>$('#'+id).addEventListener('input',()=>{if(!rec.fired||rec.over)recCalc();}));
+$('#recFire').onclick=()=>{
+  recCalc();rec.fired=true;rec.over=false;rec.t=0;rec.cx=110;rec.px=0;rec.smoke=[];
+  for(let i=0;i<16;i++)rec.smoke.push({x:175,y:118,vx:-30-Math.random()*70,vy:-20-Math.random()*40,r:4+Math.random()*7,a:.7});
+};
+$('#recReset').onclick=()=>{rec.fired=false;rec.over=false;rec.t=0;rec.cx=110;rec.smoke=[];};
+function recStep(dt){
+  const cv=$('#recCv'),{ctx,W,H}=fit(cv);ctx.clearRect(0,0,W,H);
+  const {M,m,u,v}=recCalc();
+  const ground=H-42;
+  ctx.fillStyle='#eaf4ff';ctx.fillRect(0,ground,W,H-ground);
+  ctx.strokeStyle='#b8d4f0';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,ground);ctx.lineTo(W,ground);ctx.stroke();
+  for(let i=0;i<6;i++){ctx.strokeStyle='rgba(140,180,220,.5)';ctx.beginPath();const x=(i*173+40)%W;ctx.moveTo(x,ground+8);ctx.lineTo(x+46,ground+8);ctx.stroke();}
+  dt=Math.min(dt,.03);
+  if(rec.fired&&!rec.over){
+    rec.t+=dt;
+    if(rec.t<2)rec.cx=Math.max(46,rec.cx-v*16*dt);
+    rec.px=175+u*2.4*rec.t;
+    rec.smoke.forEach(s=>{s.x+=s.vx*dt;s.y+=s.vy*dt;s.r+=14*dt;s.a-=dt*.5;});
+    if(rec.t>=2&&rec.px>W+40)rec.over=true; /* сцена завмирає */
+  }
+  const cy=ground-34;
+  ctx.fillStyle='#334155';ctx.fillRect(rec.cx-38,cy-16,76,34);
+  ctx.fillStyle='#1e293b';
+  ctx.save();ctx.translate(rec.cx+30,cy-10);ctx.rotate(-0.12);ctx.fillRect(0,-7,64,14);ctx.restore();
+  ctx.fillStyle='#475569';
+  ctx.beginPath();ctx.arc(rec.cx-20,ground-12,13,0,7);ctx.fill();
+  ctx.beginPath();ctx.arc(rec.cx+22,ground-12,13,0,7);ctx.fill();
+  ctx.fillStyle='#94a3b8';
+  ctx.beginPath();ctx.arc(rec.cx-20,ground-12,4,0,7);ctx.fill();
+  ctx.beginPath();ctx.arc(rec.cx+22,ground-12,4,0,7);ctx.fill();
+  ctx.fillStyle='#0f172a';ctx.font='700 12px IBM Plex Mono';ctx.textAlign='center';
+  ctx.fillText('M = '+M+' кг',rec.cx,cy+30);
+  if(rec.fired){
+    if(rec.t<0.09){
+      const fx=rec.cx+30+64*Math.cos(-0.12),fy=cy-10+64*Math.sin(-0.12);
+      const g=ctx.createRadialGradient(fx,fy,2,fx,fy,34);
+      g.addColorStop(0,'#fff7cc');g.addColorStop(.4,'#fbbf24');g.addColorStop(1,'rgba(251,191,36,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(fx,fy,34,0,7);ctx.fill();
+    }
+    if(rec.px<W+40){
+      ctx.fillStyle='#152640';ctx.beginPath();ctx.arc(rec.px,cy-22,10,0,7);ctx.fill();
+      arrow(ctx,rec.px,cy-46,Math.min(u*.35,120),0,'#dd4a3f',3.5);
+      ctx.fillStyle='#44566f';ctx.font='600 12px IBM Plex Mono';ctx.textAlign='center';ctx.fillText('m·u = '+(m*u),rec.px,cy-58);
+    }
+    if(v>0.1)arrow(ctx,rec.cx-46,cy,-Math.min(v*16,90),0,'#1d5ed8',3.5);
+    rec.smoke.forEach(s=>{if(s.a>0){ctx.fillStyle=`rgba(148,163,184,${s.a})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill();}});
+    if(rec.over){ctx.fillStyle='#0d9488';ctx.font='700 13px IBM Plex Sans';ctx.textAlign='center';ctx.fillText('Σp = 0 — закон виконано ✓',W/2,26);}
+  }else{
+    ctx.fillStyle='#44566f';ctx.font='italic 15px IBM Plex Serif';ctx.textAlign='center';
+    ctx.fillText('Σp = 0 … натисни «Вогонь!»',W/2,60);
+  }
+}
+
+/* ==================== 05: БАЛІСТИЧНИЙ МАЯТНИК ==================== */
+const bal={state:'idle',bx:0,th:0,om:0,thMax:0,calm:0,g:9.81,Lm:1.1};
+function balParams(){
+  const m=+$('#bmB').value/1000,M=+$('#bMB').value,u=+$('#buB').value;
+  $('#bmBOut').textContent=($('#bmB').value)+' г';
+  $('#bMBOut').textContent=fmt(M,M%1?1:0)+' кг';
+  $('#buBOut').textContent=u+' м/с';
+  const vC=m*u/(m+M),h=vC*vC/(2*bal.g),th=Math.acos(clamp(1-h/bal.Lm,-1,1))*180/Math.PI;
+  $('#balV').textContent=fmt(vC,2)+' м/с';
+  $('#balH').textContent=fmt(h*100)+' см';
+  $('#balA').textContent=fmt(th,0)+'°';
+  const ek0=.5*m*u*u,ek1=.5*(m+M)*vC*vC;
+  $('#balE').textContent=`Ек: ${fmt(ek0,0)} Дж → ${fmt(ek1,0)} Дж (−${fmt((1-ek1/ek0)*100,0)} %)`;
+  return{m,M,u,vC,h};
+}
+['bmB','bMB','buB'].forEach(id=>$('#'+id).addEventListener('input',()=>{if(bal.state==='idle')balParams();}));
+$('#balFire').onclick=()=>{
+  balReset();
+  const{vC}=balParams();
+  bal.state='fly';bal.bx=30;bal.vC=vC;
+};
+$('#balReset').onclick=balReset;
+function balReset(){bal.state='idle';bal.th=0;bal.om=0;bal.thMax=0;bal.calm=0;}
+function balStep(dt){
+  const cv=$('#balCv'),{ctx,W,H}=fit(cv);ctx.clearRect(0,0,W,H);
+  const {m,M,u,vC,h}=balParams();
+  const pivotX=W*0.6,pivotY=34,s=(H-110)/bal.Lm;
+  const cx=pivotX+s*bal.Lm*Math.sin(bal.th),cy=pivotY+s*bal.Lm*Math.cos(bal.th);
+  dt=Math.min(dt,.03);
+  if(bal.state==='fly'){
+    bal.bx+=900*dt;
+    if(bal.bx>=cx-26){bal.state='swing';bal.om=bal.vC/bal.Lm;}
+  }else if(bal.state==='swing'){
+    bal.om+=(bal.g/bal.Lm)*Math.sin(-bal.th)*dt-0.10*bal.om*dt;
+    bal.th+=bal.om*dt;
+    bal.thMax=Math.max(bal.thMax,bal.th);
+    if(Math.abs(bal.om)<0.02&&Math.abs(bal.th)<0.02){bal.calm+=dt;if(bal.calm>0.6){bal.state='settle';bal.th=0;bal.om=0;}}
+  }
+  /* стійка */
+  ctx.strokeStyle='#152640';ctx.lineWidth=6;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(pivotX-90,pivotY);ctx.lineTo(pivotX+90,pivotY);ctx.stroke();
+  ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(pivotX-90,pivotY);ctx.lineTo(pivotX-104,H-26);ctx.moveTo(pivotX+90,pivotY);ctx.lineTo(pivotX+104,H-26);ctx.stroke();
+  ctx.strokeStyle='#152640';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(pivotX-120,H-26);ctx.lineTo(pivotX+120,H-26);ctx.stroke();
+  /* нитки */
+  ctx.strokeStyle='#64748b';ctx.lineWidth=1.6;
+  ctx.beginPath();ctx.moveTo(pivotX-14,pivotY);ctx.lineTo(cx-16*Math.cos(bal.th),cy-16*Math.sin(bal.th)-20);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(pivotX+14,pivotY);ctx.lineTo(cx+16*Math.cos(bal.th),cy+16*Math.sin(bal.th)-20);ctx.stroke();
+  /* блок */
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(bal.th);
+  const gr=ctx.createLinearGradient(-26,0,26,0);
+  gr.addColorStop(0,'#d9b98c');gr.addColorStop(1,'#a9834f');
+  ctx.fillStyle=gr;ctx.strokeStyle='#7a5c33';ctx.lineWidth=2;
+  ctx.beginPath();ctx.roundRect(-26,-22,52,44,6);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#5c4425';ctx.font='700 11px IBM Plex Mono';ctx.textAlign='center';
+  ctx.fillText('M='+fmt(M,M%1?1:0),0,4);
+  if(bal.state!=='fly'&&bal.state!=='idle'){ctx.fillStyle='#152640';ctx.beginPath();ctx.arc(-16,0,5,0,7);ctx.fill();}
+  ctx.restore();
+  /* куля */
+  if(bal.state==='fly'){
+    ctx.fillStyle='#152640';ctx.beginPath();ctx.arc(bal.bx,cy,7,0,7);ctx.fill();
+    arrow(ctx,Math.max(bal.bx-40,60),cy-26,Math.min(u*.16,80),0,'#dd4a3f',3);
+  }
+  if(bal.state==='idle'){
+    ctx.fillStyle='#44566f';ctx.font='italic 15px IBM Plex Serif';ctx.textAlign='center';
+    ctx.fillText('натисни «Постріл» — куля влучить у блок і застрягне',W/2,60);
+  }
+  /* мітка висоти h */
+  if(bal.state!=='idle'){
+    const y0=pivotY+s*bal.Lm,mx=Math.min(W-70,pivotX+s*bal.Lm*Math.sin(bal.thMax)+40),my=y0-s*h;
+    ctx.strokeStyle='#0d9488';ctx.setLineDash([5,4]);ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(mx-34,y0);ctx.lineTo(mx+24,y0);ctx.moveTo(mx-34,my);ctx.lineTo(mx+24,my);ctx.stroke();
+    ctx.setLineDash([]);
+    arrow(ctx,mx+14,y0-3,0,-(y0-my-8),'#0d9488',2.5);
+    ctx.fillStyle='#0d9488';ctx.font='700 12px IBM Plex Mono';ctx.textAlign='left';
+    ctx.fillText('h = '+fmt(h*100)+' см',mx+24,(y0+my)/2);
+  }
+  if(bal.state==='settle'){
+    ctx.fillStyle='#0d9488';ctx.font='700 13px IBM Plex Sans';ctx.textAlign='center';
+    ctx.fillText('Коливання згасли — вимірювання зафіксовано ✓',W/2,26);
+  }
+}
+balParams();
+
+/* ==================== 06: МЕДИЦИНА ==================== */
+function impactUpdate(){
+  const dt=+$('#dt').value,F=360/dt,mult=F/588.6;
+  $('#dtOut').textContent=fmt(dt,2)+' с';
+  $('#fVal').textContent=fmt(F/1000,F/1000<10?1:0);
+  $('#fDen').textContent=fmt(dt,2);
+  $('#fCalc').textContent=Math.round(F)+' Н';
+  const badge=$('#fBadge');
+  badge.textContent=`≈ ${fmt(mult,mult<10?1:0)} × вага тіла`;
+  badge.className='mult-badge '+(mult>12?'danger':mult>4?'warn':'safe');
+  $('#fMsg').textContent=mult>12?'⚠ ризик переломів і ЧМТ!':mult>4?'навантаження відчутне':'навантаження безпечне';
+  $('#fBar').style.width=clamp(F/40000*100,3,100)+'%';
+  const bend=clamp((dt-0.01)/0.59,0,1)*46;
+  const kneeY=105-bend*.5,kneeXL=50-bend*.28,kneeXR=70+bend*.28;
+  $('#legL').setAttribute('d',`M60 70 L${kneeXL} ${kneeY} L${46-bend*.3} 138`);
+  $('#legR').setAttribute('d',`M60 70 L${kneeXR} ${kneeY} L${74+bend*.3} 138`);
+  const len=clamp(Math.log10(F)*14-24,14,70);
+  $('#forceArrow').setAttribute('d',`M60 138 L60 ${138-len}`);
+  $('#forceArrow').setAttribute('stroke',mult>12?'#dd4a3f':mult>4?'#f09a0b':'#0d9488');
+}
+$('#dt').addEventListener('input',impactUpdate);
+$$('#med [data-dt]').forEach(b=>b.addEventListener('click',()=>{$('#dt').value=b.dataset.dt;paintRange($('#dt'));impactUpdate();}));
+impactUpdate();
+
+/* ==================== 08: ТЕСТ ==================== */
+const QUIZ=[
+ {q:'Яка одиниця імпульсу в СІ?',o:['Дж','кг·м/с','Н/м','Вт'],c:1,w:'1 кг·м/с = 1 Н·с — це одна й та сама одиниця, записана по-різному. Дж — одиниця енергії.'},
+ {q:'М’яч масою 0,5 кг рухається зі швидкістю 4 м/с. Який його імпульс?',o:['2 кг·м/с','8 кг·м/с','0,125 кг·м/с','4 кг·м/с'],c:0,w:'p = m·v = 0,5 · 4 = 2 кг·м/с.'},
+ {q:'У замкненій системі векторна сума імпульсів усіх тіл…',o:['завжди зростає','завжди зменшується','залишається сталою','дорівнює нулю'],c:2,w:'Σp⃗ = const — це і є формулювання закону збереження імпульсу.'},
+ {q:'Після абсолютно непружного зіткнення тіла…',o:['розлітаються у протилежні боки','рухаються разом як одне ціле','зупиняються','змінюють маси'],c:1,w:'Тіла злипаються: m₁v₁ + m₂v₂ = (m₁+m₂)·v. Енергія при цьому частково втрачається.'},
+ {q:'Яка з цих величин — векторна?',o:['маса','шлях','енергія','імпульс'],c:3,w:'Імпульс напрямлений так само, як швидкість тіла. Решта величин — скалярні.'},
+ {q:'Віддача гармати при пострілі — прямий наслідок…',o:['закону збереження енергії','закону збереження імпульсу','закону Архімеда','закону Гука'],c:1,w:'До пострілу Σp = 0, тому після нього імпульси ядра і гармати компенсують один одного.'},
+ {q:'Людина 60 кг відштовхується від човна 120 кг і набуває швидкості 2 м/с відносно берега. Якою буде швидкість човна?',o:['4 м/с','2 м/с','1 м/с','0,5 м/с'],c:2,w:'60·2 = 120·v ⇒ v = 1 м/с. Важчий човен рухається повільніше — імпульси рівні!'}
+];
+let qi=0,qScore=0;
+function renderQ(){
+  const box=$('#quiz');
+  if(qi>=QUIZ.length){
+    const pct=Math.round(qScore/QUIZ.length*100);
+    const verdict=pct>=85?'🏆 Чудово! Закони імпульсу — ваші.':pct>=60?'👍 Добре! Перегляньте моменти з помилками.':'📖 Варто повторити теорію розділу 01.';
+    box.innerHTML=`<div class="q-result"><div class="score">${qScore} / ${QUIZ.length}</div>
+      <div class="verdict">${verdict}</div>
+      <button class="btn" onclick="qi=0;qScore=0;renderQ()">⟲ Пройти ще раз</button></div>`;
+    return;
+  }
+  const Q=QUIZ[qi];
+  box.innerHTML=`
+    <div class="q-meta"><span>Запитання ${qi+1} з ${QUIZ.length}</span><span>Балів: ${qScore}</span></div>
+    <div class="q-progress"><i style="width:${qi/QUIZ.length*100}%"></i></div>
+    <div class="q-text">${Q.q}</div>
+    <div class="q-opts">${Q.o.map((o,i)=>`<button class="q-opt" data-i="${i}"><span class="key">${'АБВГ'[i]}</span>${o}</button>`).join('')}</div>
+    <div class="q-why" id="qWhy"></div>`;
+  box.querySelectorAll('.q-opt').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.i;
+    box.querySelectorAll('.q-opt').forEach(x=>{x.disabled=true;});
+    b.classList.add(i===Q.c?'correct':'wrong');
+    if(i!==Q.c)box.querySelector(`[data-i="${Q.c}"]`).classList.add('correct');
+    else qScore++;
+    const why=$('#qWhy');why.innerHTML=(i===Q.c?'✅ <b>Правильно!</b> ':'❌ <b>Неправильно.</b> ')+Q.w;why.classList.add('show');
+    setTimeout(()=>{qi++;renderQ();},2600);
+  }));
+}
+renderQ();
+
+/* ==================== ГОЛОВНИЙ ЦИКЛ ==================== */
+let last=performance.now();
+function loop(t){
+  const dt=clamp((t-last)/1000,0.001,0.05);last=t;
+  if(vis['builderCv'])builderStep(dt);
+  if(vis['collCv'])collStep(dt);
+  if(vis['recCv'])recStep(dt);
+  if(vis['balCv'])balStep(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
